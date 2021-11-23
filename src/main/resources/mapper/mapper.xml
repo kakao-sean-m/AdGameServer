@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fufumasi">
+    <!-- select 쿼리 -->
+    <select id="selectUser" parameterType="userVO" resultType="userVO">
+        select * from user_data where email=#{email} and password=md5(#{password})
+    </select>
+    <!--  insert 쿼리 -->
+    <insert id="insertUser" parameterType="userVO">
+        insert into user_info values(#{user_id}, #{user_pw})
+    </insert>
+    <!-- update 쿼리 -->
+    <update id="updateUser" parameterType="userVO">
+        update user_info set user_pw=#{user_pw} where user_id=#{user_id}
+    </update>
+    <!-- delete 쿼리 -->
+    <delete id="deleteUser" parameterType="String">
+        delete from user_info where user_id=#{value}
+    </delete>
+</mapper>

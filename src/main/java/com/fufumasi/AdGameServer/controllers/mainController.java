@@ -1,32 +1,49 @@
 package com.fufumasi.AdGameServer.controllers;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
+@RestController
 public class mainController {
-    //access '/'
+    // access '/'
     @GetMapping(value = "/")
     @ResponseBody
-    public String unautorizedResponse() {
-        return "Unauthorized Access";
+    public String unauthorizedResponse() {
+        return "ee";
     }
 
-    //login api
+    @Resource(name = "userDAO")
+    private com.fufumasi.AdGameServer.db.userDAO dao;
+    @GetMapping(value = "/test")
+    @ResponseBody
+    public String testResponse() {
+        return "/test";
+    }
+
+    // login api
+    @Inject
+    public tokenHandler token;
     @GetMapping(value = "/login")
     @ResponseBody
-    public loginResponse loginResponse() {
-        loginResponse res = new loginResponse();
-        res.token = "testToken";
-        return res;
-    }
+    public responses.loginResponse loginResponse(HttpServletRequest req) {
+        String email = req.getParameter("email");
+        String pw = req.getParameter("pw");
+        responses.loginResponse res = new responses.loginResponse();
+        if (email == null || pw == null) {
+            return res;
+        }
+        com.fufumasi.AdGameServer.db.userVO user = new com.fufumasi.AdGameServer.db.userVO();
+        user.setEmail(email);
+        user.setPassword(pw);
+        user = dao.select(user);
+        if (user == null)
+            return res;
 
-    @Getter
-    @Setter
-    public static class loginResponse {
-        private String token;
+        res.setToken(token.makeJwtToken(user.getName(), user.getEmail()));
+        return res;
     }
 }
