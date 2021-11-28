@@ -23,15 +23,16 @@ public class jwtAuthFilter extends OncePerRequestFilter {
         if (!request.getRequestURI().equals("/login")) { // login 페이지는 token 필터에서 제외
             try {
                 String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+                System.out.println(authorizationHeader);
                 Claims claims = tokenhandler.parseJwtToken(authorizationHeader);
                 request.setAttribute("claims", claims);
             } catch (IllegalArgumentException e) {
-                System.out.println(request.getRequestURI() + " IllegalArgumentException");
+                System.out.println(request.getRequestURI() + " IllegalArgumentException ");
                 response.sendError(401);
                 return;
             } catch (ExpiredJwtException e) {
                 System.out.println(request.getRequestURI() + " ExpiredJwt");
-                response.sendRedirect("/logout");
+                response.sendError(401);
                 return;
             } catch (Exception e) {
                 System.out.println(request.getRequestURI() + " Exception");
