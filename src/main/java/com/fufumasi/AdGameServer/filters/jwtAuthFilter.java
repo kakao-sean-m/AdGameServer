@@ -26,15 +26,15 @@ public class jwtAuthFilter extends OncePerRequestFilter {
                 Claims claims = tokenhandler.parseJwtToken(authorizationHeader);
                 request.setAttribute("claims", claims);
             } catch (IllegalArgumentException e) {
-                System.out.println("IllegalArgumentException");
+                System.out.println(request.getRequestURI() + " IllegalArgumentException");
                 response.sendError(401);
                 return;
             } catch (ExpiredJwtException e) {
-                System.out.println("ExpiredJwt");
+                System.out.println(request.getRequestURI() + " ExpiredJwt");
                 response.sendRedirect("/logout");
                 return;
             } catch (Exception e) {
-                System.out.println("Exception");
+                System.out.println(request.getRequestURI() + " Exception");
                 response.sendError(401);
                 return;
             }
