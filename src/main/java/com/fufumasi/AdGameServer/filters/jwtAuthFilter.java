@@ -20,12 +20,12 @@ public class jwtAuthFilter extends OncePerRequestFilter {
     private tokenHandler tokenhandler;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        if (!request.getRequestURI().equals("/login")) { // login 페이지는 token 필터에서 제외
+        if (!request.getRequestURI().equals("/login") && !request.getRequestURI().equals("/test")) { // login 페이지는 token 필터에서 제외
             try {
                 String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-                System.out.println(authorizationHeader);
+                // System.out.println(authorizationHeader);
                 Claims claims = tokenhandler.parseJwtToken(authorizationHeader);
-                System.out.println("token name: " + claims.get("name"));
+                // System.out.println("token name: " + claims.get("name"));
                 request.setAttribute("claims", claims);
             } catch (IllegalArgumentException e) {
                 System.out.println(request.getRequestURI() + " IllegalArgumentException ");

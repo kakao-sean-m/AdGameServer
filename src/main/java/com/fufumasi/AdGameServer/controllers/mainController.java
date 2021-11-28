@@ -24,7 +24,7 @@ public class mainController {
     @GetMapping(value = "/test")
     @ResponseBody
     public String testResponse() {
-        return "/test";
+        return null;
     }
 
     // login api
