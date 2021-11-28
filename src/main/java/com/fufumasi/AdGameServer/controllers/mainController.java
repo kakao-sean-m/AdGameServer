@@ -13,7 +13,7 @@ public class mainController {
     @GetMapping(value = "/")
     @ResponseBody
     public String unauthorizedResponse() {
-        return "ee";
+        return "0";
     }
 
     @Resource(name = "userDAO")
@@ -32,7 +32,7 @@ public class mainController {
     public responses.loginResponse loginResponse(HttpServletRequest req) {
         String email = req.getParameter("email");
         String pw = req.getParameter("pw");
-        System.out.println(email + " " + pw + "reached /login");
+        // System.out.println(email + " " + pw + " reached /login");
         responses.loginResponse res = new responses.loginResponse();
         if (email == null || pw == null) {
             return res;
