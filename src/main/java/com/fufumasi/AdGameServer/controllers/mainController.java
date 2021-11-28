@@ -2,6 +2,7 @@ package com.fufumasi.AdGameServer.controllers;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -50,11 +51,14 @@ public class mainController {
         return res;
     }
 
+    @Inject
+    private tokenHandler tokenhandler;
     // login api
     @PostMapping(value = "/login")
     @ResponseBody
     public responses.userResponse userResponse(HttpServletRequest req) {
-        Claims claims = (Claims) req.getAttribute("claims");
+        String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
+        Claims claims = tokenhandler.parseJwtToken(authorizationHeader);
         responses.userResponse res = new responses.userResponse();
         if (claims == null) {
             System.out.println("claims NULL");
