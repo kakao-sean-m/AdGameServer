@@ -64,14 +64,13 @@ public class mainController {
             System.out.println("claims NULL");
             return res;
         }
-        // System.out.println(email + " " + pw + " reached /login");
+        System.out.println(String.format("token claims email: %s name: %s", claims.get("email"), claims.get("name")));
 
         userVO user = new userVO();
         user.setEmail((String) claims.get("email"));
         user.setName((String) claims.get("name"));
         user = dao.selectUserInfo(user);
-        if (user == null)
-            return res;
+        System.out.println(String.format("token claims email: %s name: %s", user.getEmail(), user.getName()));
 
         res.setName(user.getName());
         return res;
