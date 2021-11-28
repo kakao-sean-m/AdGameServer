@@ -9,4 +9,10 @@ public class responses {
     public static class loginResponse {
         private String token;
     }
+
+    @Getter
+    @Setter
+    public static class userResponse {
+        private String name;
+    }
 }

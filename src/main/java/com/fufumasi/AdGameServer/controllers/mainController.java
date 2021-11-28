@@ -1,11 +1,13 @@
 package com.fufumasi.AdGameServer.controllers;
 
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import com.fufumasi.AdGameServer.db.userVO;
 
 @RestController
 public class mainController {
@@ -40,11 +42,31 @@ public class mainController {
         com.fufumasi.AdGameServer.db.userVO user = new com.fufumasi.AdGameServer.db.userVO();
         user.setEmail(email);
         user.setPassword(pw);
-        user = dao.select(user);
+        user = dao.selectUserLogin(user);
         if (user == null)
             return res;
 
         res.setToken(token.makeJwtToken(user.getName(), user.getEmail()));
+        return res;
+    }
+
+    // login api
+    @PostMapping(value = "/login")
+    @ResponseBody
+    public responses.userResponse userResponse(HttpServletRequest req) {
+        Claims claims = (Claims) req.getAttribute("claims");
+
+        // System.out.println(email + " " + pw + " reached /login");
+        responses.userResponse res = new responses.userResponse();
+
+        userVO user = new userVO();
+        user.setEmail((String) claims.get("email"));
+        user.setName((String) claims.get("name"));
+        user = dao.selectUserInfo(user);
+        if (user == null)
+            return res;
+
+        res.setName(user.getName());
         return res;
     }
 }

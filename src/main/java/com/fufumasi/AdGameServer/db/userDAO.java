@@ -10,8 +10,11 @@ public class userDAO {
     @Resource(name="sqlSessionTemplate")
     private SqlSessionTemplate session;
 
-    public userVO select(userVO queryUser) {
-        userVO user = session.selectOne("fufumasi.selectUser",queryUser);
-        return user;
+    public userVO selectUserLogin(userVO queryUser) {
+        return session.selectOne("fufumasi.selectUserLogin",queryUser);
+    }
+
+    public userVO selectUserInfo(userVO queryUser) {
+        return session.selectOne("fufumasi.selectUserInfo",queryUser);
     }
 }
