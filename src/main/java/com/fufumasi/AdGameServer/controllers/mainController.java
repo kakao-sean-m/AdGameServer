@@ -47,7 +47,7 @@ public class mainController {
         if (user == null)
             return res;
 
-        res.setToken(token.makeJwtToken(user.getName(), user.getEmail()));
+        res.setToken(token.makeJwtToken(user.getEmail(), user.getName()));
         return res;
     }
 
@@ -70,6 +70,8 @@ public class mainController {
         user.setEmail((String) claims.get("email"));
         user.setName((String) claims.get("name"));
         user = dao.selectUserInfo(user);
+        if (user == null)
+            return null;
         System.out.printf("token claims email: %s name: %s%n", user.getEmail(), user.getName());
 
         res.setName(user.getName());
