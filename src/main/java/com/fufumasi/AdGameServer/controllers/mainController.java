@@ -64,7 +64,7 @@ public class mainController {
             System.out.println("claims NULL");
             return res;
         }
-        System.out.printf("token claims email: %s name: %s%n", claims.get("email"), claims.get("name"));
+        // System.out.printf("token claims email: %s name: %s%n", claims.get("email"), claims.get("name"));
 
         userVO user = new userVO();
         user.setEmail((String) claims.get("email"));
@@ -72,7 +72,7 @@ public class mainController {
         user = dao.selectUserInfo(user);
         if (user == null)
             return null;
-        System.out.printf("token claims email: %s name: %s%n", user.getEmail(), user.getName());
+        // System.out.printf("db email: %s name: %s%n", user.getEmail(), user.getName());
 
         res.setName(user.getName());
         return res;
