@@ -55,9 +55,12 @@ public class mainController {
     @ResponseBody
     public responses.userResponse userResponse(HttpServletRequest req) {
         Claims claims = (Claims) req.getAttribute("claims");
-
-        // System.out.println(email + " " + pw + " reached /login");
         responses.userResponse res = new responses.userResponse();
+        if (claims == null) {
+            System.out.println("claims NULL");
+            return res;
+        }
+        // System.out.println(email + " " + pw + " reached /login");
 
         userVO user = new userVO();
         user.setEmail((String) claims.get("email"));
