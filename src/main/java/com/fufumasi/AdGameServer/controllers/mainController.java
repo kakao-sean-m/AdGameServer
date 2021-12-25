@@ -63,7 +63,7 @@ public class mainController {
     }
 
     /***
-     * Post /login
+     * Get /main
      * login with a token
      */
     @GetMapping(value = "/main")
@@ -91,10 +91,10 @@ public class mainController {
     }
 
     /***
-     * Put /login
+     * Post /login
      * sign up user
      */
-    @PutMapping(value = "/login")
+    @PostMapping(value = "/login")
     @ResponseBody
     public responses.signupResponse signupResponse(HttpServletRequest req) {
         responses.signupResponse res = new responses.signupResponse();
