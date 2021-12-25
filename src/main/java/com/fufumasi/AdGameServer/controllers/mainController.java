@@ -66,7 +66,7 @@ public class mainController {
      * Post /login
      * login with a token
      */
-    @PostMapping(value = "/login")
+    @GetMapping(value = "/main")
     @ResponseBody
     public responses.userResponse userResponse(HttpServletRequest req) {
         String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
