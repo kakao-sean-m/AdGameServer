@@ -15,4 +15,10 @@ public class responses {
     public static class userResponse {
         private String name;
     }
+
+    @Getter
+    @Setter
+    public static class signupResponse {
+        private String res;
+    }
 }

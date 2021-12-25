@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import com.fufumasi.AdGameServer.db.userVO;
 
@@ -19,15 +20,25 @@ public class mainController {
         return "0";
     }
 
+    @Inject
+    private emailHandler email;
     @Resource(name = "userDAO")
     private com.fufumasi.AdGameServer.db.userDAO dao;
     @GetMapping(value = "/test")
     @ResponseBody
     public String testResponse() {
-        return null;
+        try {
+            email.sendMail("secured8372@gmail.com");
+        } catch (MessagingException e) {
+            System.out.println(e);
+        }
+        return "null";
     }
 
-    // login api
+    /***
+     * Get /login
+     * login with email and password
+     */
     @Inject
     public tokenHandler token;
     @GetMapping(value = "/login")
@@ -51,14 +62,15 @@ public class mainController {
         return res;
     }
 
-    @Inject
-    private tokenHandler tokenhandler;
-    // login api
+    /***
+     * Post /login
+     * login with a token
+     */
     @PostMapping(value = "/login")
     @ResponseBody
     public responses.userResponse userResponse(HttpServletRequest req) {
         String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
-        Claims claims = tokenhandler.parseJwtToken(authorizationHeader);
+        Claims claims = token.parseJwtToken(authorizationHeader);
         responses.userResponse res = new responses.userResponse();
         if (claims == null) {
             System.out.println("claims NULL");
@@ -75,6 +87,33 @@ public class mainController {
         // System.out.printf("db email: %s name: %s%n", user.getEmail(), user.getName());
 
         res.setName(user.getName());
+        return res;
+    }
+
+    /***
+     * Put /login
+     * sign up user
+     */
+    @PutMapping(value = "/login")
+    @ResponseBody
+    public responses.signupResponse signupResponse(HttpServletRequest req) {
+        responses.signupResponse res = new responses.signupResponse();
+        String email = req.getParameter("email");
+        String pw = req.getParameter("pw");
+        String name = req.getParameter("name");
+        String mobileNum = req.getParameter("phoneNum");
+
+        if (email.length() > 30)
+            res.setRes("EMAIL");
+
+        userVO user = new userVO();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(pw);
+        user.setMobileNum(mobileNum);
+        int ret = dao.insertUser(user);
+
+        res.setRes("OK");
         return res;
     }
 }

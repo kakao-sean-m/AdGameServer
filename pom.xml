@@ -78,6 +78,16 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.1</version>
 		</dependency>
+		<!-- Email 전송 라이브러리 -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -12,7 +12,13 @@
     </select>
     <!--  insert 쿼리 -->
     <insert id="insertUser" parameterType="userVO">
-        insert into user_info values(#{user_id}, #{user_pw})
+        insert into user_data(name, email, password, mobileNum, registDate) values(
+            #{name},
+            #{email},
+            md5(#{password}),
+            #{mobileNum},
+            curdate()
+        )
     </insert>
     <!-- update 쿼리 -->
     <update id="updateUser" parameterType="userVO">
