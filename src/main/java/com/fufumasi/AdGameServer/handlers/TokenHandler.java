@@ -1,4 +1,4 @@
-package com.fufumasi.AdGameServer.controllers;
+package com.fufumasi.AdGameServer.handlers;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Service
 @PropertySource("classpath:application.properties")
-public class tokenHandler {
+public class TokenHandler {
     @Value("${jwt.issuer}")
     private String issuer;
     @Value("${jwt.secret}")

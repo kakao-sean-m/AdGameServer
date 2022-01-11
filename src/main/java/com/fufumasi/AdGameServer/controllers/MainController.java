@@ -1,7 +1,9 @@
 package com.fufumasi.AdGameServer.controllers;
 
+import com.fufumasi.AdGameServer.db.UserDAO;
+import com.fufumasi.AdGameServer.handlers.EmailHandler;
+import com.fufumasi.AdGameServer.handlers.TokenHandler;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,10 +11,10 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import com.fufumasi.AdGameServer.db.userVO;
+import com.fufumasi.AdGameServer.db.UserVO;
 
 @RestController
-public class mainController {
+public class MainController {
     // access '/'
     @GetMapping(value = "/")
     @ResponseBody
@@ -21,9 +23,9 @@ public class mainController {
     }
 
     @Inject
-    private emailHandler email;
+    private EmailHandler email;
     @Resource(name = "userDAO")
-    private com.fufumasi.AdGameServer.db.userDAO dao;
+    private UserDAO dao;
     @GetMapping(value = "/test")
     @ResponseBody
     public String testResponse() {
@@ -40,18 +42,18 @@ public class mainController {
      * login with email and password
      */
     @Inject
-    public tokenHandler token;
+    public TokenHandler token;
     @GetMapping(value = "/login")
     @ResponseBody
-    public responses.loginResponse loginResponse(HttpServletRequest req) {
+    public Responses.loginResponse loginResponse(HttpServletRequest req) {
         String email = req.getParameter("email");
         String pw = req.getParameter("pw");
         // System.out.println(email + " " + pw + " reached /login");
-        responses.loginResponse res = new responses.loginResponse();
+        Responses.loginResponse res = new Responses.loginResponse();
         if (email == null || pw == null) {
             return res;
         }
-        com.fufumasi.AdGameServer.db.userVO user = new com.fufumasi.AdGameServer.db.userVO();
+        UserVO user = new UserVO();
         user.setEmail(email);
         user.setPassword(pw);
         user = dao.selectUserLogin(user);
@@ -68,17 +70,17 @@ public class mainController {
      */
     @GetMapping(value = "/main")
     @ResponseBody
-    public responses.userResponse userResponse(HttpServletRequest req) {
+    public Responses.userResponse userResponse(HttpServletRequest req) {
         String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
         Claims claims = token.parseJwtToken(authorizationHeader);
-        responses.userResponse res = new responses.userResponse();
+        Responses.userResponse res = new Responses.userResponse();
         if (claims == null) {
             System.out.println("claims NULL");
             return res;
         }
         // System.out.printf("token claims email: %s name: %s%n", claims.get("email"), claims.get("name"));
 
-        userVO user = new userVO();
+        UserVO user = new UserVO();
         user.setEmail((String) claims.get("email"));
         user.setName((String) claims.get("name"));
         user = dao.selectUserInfo(user);
@@ -96,8 +98,8 @@ public class mainController {
      */
     @PostMapping(value = "/login")
     @ResponseBody
-    public responses.signupResponse signupResponse(HttpServletRequest req) {
-        responses.signupResponse res = new responses.signupResponse();
+    public Responses.signupResponse signupResponse(HttpServletRequest req) {
+        Responses.signupResponse res = new Responses.signupResponse();
         String email = req.getParameter("email");
         String pw = req.getParameter("pw");
         String name = req.getParameter("name");
@@ -106,7 +108,7 @@ public class mainController {
         if (email.length() > 30)
             res.setRes("EMAIL");
 
-        userVO user = new userVO();
+        UserVO user = new UserVO();
         user.setName(name);
         user.setEmail(email);
         user.setPassword(pw);

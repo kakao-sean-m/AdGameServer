@@ -1,6 +1,6 @@
 package com.fufumasi.AdGameServer.filters;
 
-import com.fufumasi.AdGameServer.controllers.tokenHandler;
+import com.fufumasi.AdGameServer.handlers.TokenHandler;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +17,7 @@ import java.io.IOException;
 @Component
 public class jwtAuthFilter extends OncePerRequestFilter {
     @Inject
-    private tokenHandler tokenhandler;
+    private TokenHandler tokenhandler;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         if (!request.getRequestURI().equals("/login") && !request.getRequestURI().equals("/test")) { // login 페이지는 token 필터에서 제외

@@ -3,7 +3,7 @@ package com.fufumasi.AdGameServer.controllers;
 import lombok.Getter;
 import lombok.Setter;
 
-public class responses {
+public class Responses {
     @Getter
     @Setter
     public static class loginResponse {

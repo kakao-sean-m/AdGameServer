@@ -6,19 +6,19 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 
 @Repository("userDAO")
-public class userDAO {
+public class UserDAO {
     @Resource(name="sqlSessionTemplate")
     private SqlSessionTemplate session;
 
-    public userVO selectUserLogin(userVO queryUser) {
+    public UserVO selectUserLogin(UserVO queryUser) {
         return session.selectOne("fufumasi.selectUserLogin", queryUser);
     }
 
-    public userVO selectUserInfo(userVO queryUser) {
+    public UserVO selectUserInfo(UserVO queryUser) {
         return session.selectOne("fufumasi.selectUserInfo", queryUser);
     }
 
-    public int insertUser(userVO queryUser) {
+    public int insertUser(UserVO queryUser) {
         return session.insert("fufumasi.insertUser", queryUser);
     }
 }

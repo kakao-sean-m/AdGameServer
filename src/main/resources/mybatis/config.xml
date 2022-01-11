@@ -4,6 +4,6 @@
 
 <configuration>
     <typeAliases>
-        <typeAlias alias="UserVO" type="com.fufumasi.AdGameServer.db.userVO" />
+        <typeAlias alias="UserVO" type="com.fufumasi.AdGameServer.db.UserVO" />
     </typeAliases>
 </configuration>

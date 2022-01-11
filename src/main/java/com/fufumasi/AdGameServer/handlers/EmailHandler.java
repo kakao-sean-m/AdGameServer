@@ -1,4 +1,4 @@
-package com.fufumasi.AdGameServer.controllers;
+package com.fufumasi.AdGameServer.handlers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,7 +11,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
 @Service
-public class emailHandler {
+public class EmailHandler {
     @Autowired
     private JavaMailSender javaMailSender;
 
