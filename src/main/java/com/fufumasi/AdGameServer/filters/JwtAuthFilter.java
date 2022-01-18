@@ -1,6 +1,6 @@
 package com.fufumasi.AdGameServer.filters;
 
-import com.fufumasi.AdGameServer.handlers.TokenHandler;
+import com.fufumasi.AdGameServer.services.TokenHandler;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class jwtAuthFilter extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter {
     @Inject
     private TokenHandler tokenhandler;
     @Override

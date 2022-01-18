@@ -1,4 +1,4 @@
-package com.fufumasi.AdGameServer.handlers;
+package com.fufumasi.AdGameServer.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;

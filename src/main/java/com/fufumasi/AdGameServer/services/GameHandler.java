@@ -1,7 +1,7 @@
-package com.fufumasi.AdGameServer.handlers;
+package com.fufumasi.AdGameServer.services;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -10,7 +10,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 @Log4j2
 public class GameHandler extends TextWebSocketHandler {
     private static List<WebSocketSession> list = new ArrayList<>();

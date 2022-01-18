@@ -1,7 +1,7 @@
 package com.fufumasi.AdGameServer.configs;
 
 import lombok.RequiredArgsConstructor;
-import com.fufumasi.AdGameServer.handlers.GameHandler;
+import com.fufumasi.AdGameServer.services.GameHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;

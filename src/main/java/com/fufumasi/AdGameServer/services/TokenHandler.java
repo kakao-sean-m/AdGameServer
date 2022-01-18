@@ -1,4 +1,4 @@
-package com.fufumasi.AdGameServer.handlers;
+package com.fufumasi.AdGameServer.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
