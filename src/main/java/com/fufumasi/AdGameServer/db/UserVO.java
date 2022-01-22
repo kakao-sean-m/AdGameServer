@@ -14,4 +14,5 @@ public class UserVO {
     private String mobileNum;
     private Date registDate;
     private Date lastLogin;
+    private int userNum;
 }

@@ -35,6 +35,8 @@ public class MainService {
         user.setEmail(email);
         user.setPassword(pw);
         user = dao.selectUserLogin(user);
+        if (user == null)
+            return "";
         return token.makeJwtToken(user.getEmail(), user.getNickname());
     }
 
