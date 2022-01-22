@@ -16,12 +16,8 @@ class AdGameServerApplicationTests {
 	private String issuer;
 
 	@Test
-	public void testConnection() throws Exception {
-		try (Connection con = ds.getConnection()) {
-			System.out.println(con);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void testConnection() {
+
 	}
 
 }

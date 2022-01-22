@@ -1,12 +1,10 @@
 package com.fufumasi.AdGameServer.services;
 
-import com.fufumasi.AdGameServer.controllers.Responses;
 import com.fufumasi.AdGameServer.db.UserDAO;
 import com.fufumasi.AdGameServer.db.UserVO;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -37,7 +35,7 @@ public class MainService {
         user.setEmail(email);
         user.setPassword(pw);
         user = dao.selectUserLogin(user);
-        return token.makeJwtToken(user.getEmail(), user.getName());
+        return token.makeJwtToken(user.getEmail(), user.getNickname());
     }
 
     public String login_token(String auth) {
@@ -45,26 +43,30 @@ public class MainService {
 
         UserVO user = new UserVO();
         user.setEmail((String) claims.get("email"));
-        user.setName((String) claims.get("name"));
+        user.setNickname((String) claims.get("name"));
         user = dao.selectUserInfo(user);
         if (user == null)
             return "";
         // System.out.printf("db email: %s name: %s%n", user.getEmail(), user.getName());
 
-        return user.getName();
+        return user.getNickname();
     }
 
-    public String signup(String name, String email, String password, String mobile) {
+    public String signup(String nickname, String email, String password, String mobile) {
         if (email.length() > 30)
             return "EMAIL";
 
         UserVO user = new UserVO();
-        user.setName(name);
+        user.setNickname(nickname);
         user.setEmail(email);
         user.setPassword(password);
         user.setMobileNum(mobile);
         dao.insertUser(user);
 
         return "OK";
+    }
+
+    public String gameEnqueue() {
+        return "";
     }
 }

@@ -4,16 +4,16 @@
 <mapper namespace="fufumasi">
     <!-- login 쿼리 -->
     <select id="selectUserLogin" parameterType="userVO" resultType="userVO">
-        select email, name from user_data where email=#{email} and password=md5(#{password})
+        select email, nickname from user_data where email=#{email} and password=md5(#{password})
     </select>
     <!-- token을 통한 select 쿼리 -->
     <select id="selectUserInfo" parameterType="userVO" resultType="userVO">
-        select email, name from user_data where email=#{email} and name=#{name}
+        select email, nickname from user_data where email=#{email} and nickname=#{nickname}
     </select>
     <!--  insert 쿼리 -->
     <insert id="insertUser" parameterType="userVO">
-        insert into user_data(name, email, password, mobileNum, registDate) values(
-            #{name},
+        insert into user_data(nickname, email, password, mobileNum, registDate) values(
+            #{nickname},
             #{email},
             md5(#{password}),
             #{mobileNum},

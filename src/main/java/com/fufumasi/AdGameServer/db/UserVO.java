@@ -10,7 +10,7 @@ import java.sql.Date;
 public class UserVO {
     private String email;
     private String password;
-    private String name;
+    private String nickname;
     private String mobileNum;
     private Date registDate;
     private Date lastLogin;
