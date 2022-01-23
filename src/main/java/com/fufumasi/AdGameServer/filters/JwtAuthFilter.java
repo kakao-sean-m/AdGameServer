@@ -26,7 +26,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 // System.out.println(authorizationHeader);
                 Claims claims = tokenhandler.parseJwtToken(authorizationHeader);
                 // System.out.println("token name: " + claims.get("name"));
-                request.setAttribute("claims", claims);
+                // request.setAttribute("claims", claims);
             } catch (IllegalArgumentException e) {
                 System.out.println(request.getRequestURI() + " IllegalArgumentException ");
                 response.sendError(401);

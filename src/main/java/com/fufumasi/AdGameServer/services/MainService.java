@@ -45,7 +45,7 @@ public class MainService {
 
         UserVO user = new UserVO();
         user.setEmail((String) claims.get("email"));
-        user.setNickname((String) claims.get("name"));
+        user.setNickname((String) claims.get("nickname"));
         user = dao.selectUserInfo(user);
         if (user == null)
             return "";

@@ -19,14 +19,14 @@ public class TokenHandler {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String makeJwtToken(String email, String name) {
+    public String makeJwtToken(String email, String nickname) {
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer(issuer)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + Duration.ofMinutes(30).toMillis()))
-                .claim("name", name)
+                .claim("nickname", nickname)
                 .claim("email", email)
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
