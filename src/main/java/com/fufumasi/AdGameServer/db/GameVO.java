@@ -14,7 +14,7 @@ public class GameVO {
     private String player1;
     private String player2;
     private Timestamp gameTime;
-    private String winner;
+    private int winner;
 
     // for GameHandler
     private WebSocketSession session1;
