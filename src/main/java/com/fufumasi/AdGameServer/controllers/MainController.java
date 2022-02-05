@@ -65,6 +65,18 @@ public class MainController {
         return res;
     }
 
+    /***
+     * Get /
+     * validate token
+     */
+    @GetMapping(value = "/")
+    @ResponseBody
+    public String tokenCheck(HttpServletRequest req) {
+        String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
+
+        return this.mainService.token_check(authorizationHeader);
+    }
+
     @GetMapping(value = "/game")
     @ResponseBody
     public Responses.GameResponse gameResponse(HttpServletRequest req) {

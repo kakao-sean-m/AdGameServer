@@ -68,6 +68,20 @@ public class MainService {
         return "OK";
     }
 
+    public String token_check(String auth) {
+        Claims claims = token.parseJwtToken(auth);
+
+        UserVO user = new UserVO();
+        user.setEmail((String) claims.get("email"));
+        user.setNickname((String) claims.get("nickname"));
+        user = dao.selectUserInfo(user);
+        if (user == null)
+            return "";
+        // System.out.printf("db email: %s name: %s%n", user.getEmail(), user.getName());
+
+        return "OK";
+    }
+
     public String gameEnqueue() {
         return "";
     }
