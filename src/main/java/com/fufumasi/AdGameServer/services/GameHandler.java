@@ -133,15 +133,13 @@ public class GameHandler extends TextWebSocketHandler {
         return null;
     }
 
-    public void deleteGame(GameVO game) {
+    public static void deleteGame(GameVO game) {
         gameList.remove(game);
     }
 }
 
 class GameManager extends TimerTask {
     private final GameVO game;
-    @Inject
-    private GameHandler gameHandler;
 
     GameManager(GameVO game) {
         super();
@@ -236,7 +234,7 @@ class GameManager extends TimerTask {
             if (game.getSession2() != null)
                 game.getSession2().close();
             game.setStage(-1);
-            gameHandler.deleteGame(game);
+            GameHandler.deleteGame(game);
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
