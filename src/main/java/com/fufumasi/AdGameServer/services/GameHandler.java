@@ -98,11 +98,11 @@ public class GameHandler extends TextWebSocketHandler {
                                             choice2,
                                             false,
                                             0));
-                    res.append("r", "ok");
+                    res.put("r", "ok");
                     session.sendMessage(new TextMessage(res.toString()));
                     break;
                 default:
-                    res.append("r", "NotFound");
+                    res.put("r", "NotFound");
                     session.sendMessage(new TextMessage(res.toString()));
                     break;
             }
