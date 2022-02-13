@@ -39,7 +39,7 @@ public class GameHandler extends TextWebSocketHandler {
                 case "ready":
                     game = lookupGame(session);
                     if (game == null) {
-                        res.append("r", "NotFound");
+                        res.put("r", "NotFound");
                         session.sendMessage(new TextMessage(res.toString()));
                         return;
                     }
@@ -49,7 +49,7 @@ public class GameHandler extends TextWebSocketHandler {
                         Timer t = new Timer();
                         GameManager pg = new GameManager(game);
 
-                        res.append("op", "BOT");
+                        res.put("op", "BOT");
                         session.sendMessage(new TextMessage(res.toString()));
                         t.schedule(pg, new Date(System.currentTimeMillis()+5000));
                     } else {
@@ -58,8 +58,8 @@ public class GameHandler extends TextWebSocketHandler {
                     break;
                 case "card":
                     game = lookupGame(session);
-                    if (game == null) {
-                        res.append("r", "NotFound");
+                    if (game == null || !game.isReady()) {
+                        res.put("r", "NotFound");
                         session.sendMessage(new TextMessage(res.toString()));
                         return;
                     }
@@ -79,6 +79,7 @@ public class GameHandler extends TextWebSocketHandler {
                         choices[game.getStage()] = choice;
                         game.setChoice2(choices);
                     }
+
                     break;
                 case "single":
                     waitingQueue.remove(session);
@@ -155,7 +156,8 @@ class GameManager extends TimerTask {
                     object.clear();
                     object.put("timeleft", String.format("%d", tLeft--));
                     game.getSession1().sendMessage(new TextMessage(object.toString()));
-                    game.getSession2().sendMessage(new TextMessage(object.toString()));
+                    if (game.getSession2() != null)
+                        game.getSession2().sendMessage(new TextMessage(object.toString()));
                     Thread.sleep(1000);
                 }
                 if (game.getChoice1()[game.getStage()] == 0) {
@@ -190,10 +192,12 @@ class GameManager extends TimerTask {
                 object.put("player", game.getChoice1()[game.getStage()]);
                 object.put("opponent", game.getChoice2()[game.getStage()]);
                 game.getSession1().sendMessage(new TextMessage(object.toString()));
-                object.clear();
-                object.put("player", game.getChoice2()[game.getStage()]);
-                object.put("opponent", game.getChoice1()[game.getStage()]);
-                game.getSession2().sendMessage(new TextMessage(object.toString()));
+                if (game.getSession2() != null) {
+                    object.clear();
+                    object.put("player", game.getChoice2()[game.getStage()]);
+                    object.put("opponent", game.getChoice1()[game.getStage()]);
+                    game.getSession2().sendMessage(new TextMessage(object.toString()));
+                }
                 game.setStage(game.getStage() + 1);
                 Thread.sleep(4500);
             }
@@ -201,21 +205,26 @@ class GameManager extends TimerTask {
                 object.clear();
                 object.put("result", "win");
                 game.getSession1().sendMessage(new TextMessage(object.toString()));
-                object.put("result", "lose");
-                game.getSession2().sendMessage(new TextMessage(object.toString()));
+                if (game.getSession2() != null) {
+                    object.put("result", "lose");
+                    game.getSession2().sendMessage(new TextMessage(object.toString()));
+                }
             }
             else if (game.getWinner() < 0) {
                 object.clear();
                 object.put("result", "lose");
                 game.getSession1().sendMessage(new TextMessage(object.toString()));
-                object.put("result", "win");
-                game.getSession2().sendMessage(new TextMessage(object.toString()));
+                if (game.getSession2() != null) {
+                    object.put("result", "win");
+                    game.getSession2().sendMessage(new TextMessage(object.toString()));
+                }
             }
             else {
                 object.clear();
                 object.put("result", "draw");
                 game.getSession1().sendMessage(new TextMessage(object.toString()));
-                game.getSession2().sendMessage(new TextMessage(object.toString()));
+                if (game.getSession2() != null)
+                    game.getSession2().sendMessage(new TextMessage(object.toString()));
             }
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
