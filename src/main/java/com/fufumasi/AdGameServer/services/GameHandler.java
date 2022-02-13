@@ -52,9 +52,9 @@ public class GameHandler extends TextWebSocketHandler {
                         res.put("op", "BOT");
                         session.sendMessage(new TextMessage(res.toString()));
                         t.schedule(pg, new Date(System.currentTimeMillis()+5000));
-                    } else {
-                        game.setReady(true);
+
                     }
+                    game.setReady(true);
                     break;
                 case "card":
                     game = lookupGame(session);
@@ -125,17 +125,23 @@ public class GameHandler extends TextWebSocketHandler {
         waitingQueue.remove(session);
     }
 
-    /* session 게임 반환 */
+    /* 주어진 session 의 게임 반환 */
     private GameVO lookupGame(WebSocketSession session) {
         for (GameVO g : gameList)
             if (session == g.getSession1() || session == g.getSession2())
                 return g;
         return null;
     }
+
+    public void deleteGame(GameVO game) {
+        gameList.remove(game);
+    }
 }
 
 class GameManager extends TimerTask {
     private final GameVO game;
+    @Inject
+    private GameHandler gameHandler;
 
     GameManager(GameVO game) {
         super();
@@ -226,6 +232,11 @@ class GameManager extends TimerTask {
                 if (game.getSession2() != null)
                     game.getSession2().sendMessage(new TextMessage(object.toString()));
             }
+            game.getSession1().close();
+            if (game.getSession2() != null)
+                game.getSession2().close();
+            game.setStage(-1);
+            gameHandler.deleteGame(game);
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
