@@ -49,6 +49,7 @@ public class GameHandler extends TextWebSocketHandler {
                         Timer t = new Timer();
                         GameManager pg = new GameManager(game);
 
+                        res.put("r", "op");
                         res.put("op", "BOT");
                         session.sendMessage(new TextMessage(res.toString()));
                         t.schedule(pg, new Date(System.currentTimeMillis()+5000));
@@ -158,6 +159,7 @@ class GameManager extends TimerTask {
                 tLeft = 10;
                 while (tLeft >= 0) {
                     object.clear();
+                    object.put("r", "timeleft");
                     object.put("timeleft", String.format("%d", tLeft--));
                     game.getSession1().sendMessage(new TextMessage(object.toString()));
                     if (game.getSession2() != null)
@@ -193,6 +195,7 @@ class GameManager extends TimerTask {
                     game.setWinner(game.getWinner() - 1);
 
                 object.clear();
+                object.put("r", "stage");
                 object.put("player", game.getChoice1()[game.getStage()]);
                 object.put("opponent", game.getChoice2()[game.getStage()]);
                 game.getSession1().sendMessage(new TextMessage(object.toString()));
@@ -207,6 +210,7 @@ class GameManager extends TimerTask {
             }
             if (game.getWinner() > 0) {
                 object.clear();
+                object.put("r", "final");
                 object.put("result", "win");
                 game.getSession1().sendMessage(new TextMessage(object.toString()));
                 if (game.getSession2() != null) {
@@ -216,6 +220,7 @@ class GameManager extends TimerTask {
             }
             else if (game.getWinner() < 0) {
                 object.clear();
+                object.put("r", "final");
                 object.put("result", "lose");
                 game.getSession1().sendMessage(new TextMessage(object.toString()));
                 if (game.getSession2() != null) {
@@ -225,6 +230,7 @@ class GameManager extends TimerTask {
             }
             else {
                 object.clear();
+                object.put("r", "final");
                 object.put("result", "draw");
                 game.getSession1().sendMessage(new TextMessage(object.toString()));
                 if (game.getSession2() != null)
