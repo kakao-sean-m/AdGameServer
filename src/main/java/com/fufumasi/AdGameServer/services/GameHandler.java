@@ -162,7 +162,7 @@ class GameManager extends TimerTask {
                     object.put("r", "timeleft");
                     object.put("timeleft", String.format("%d", tLeft--));
                     game.getSession1().sendMessage(new TextMessage(object.toString()));
-                    if (game.getSession2() != null)
+                    if (game.getSession2() != null && game.getSession2().isOpen())
                         game.getSession2().sendMessage(new TextMessage(object.toString()));
                     Thread.sleep(1000);
                 }
@@ -236,11 +236,12 @@ class GameManager extends TimerTask {
                 if (game.getSession2() != null)
                     game.getSession2().sendMessage(new TextMessage(object.toString()));
             }
+            game.setStage(-1);
+            GameHandler.deleteGame(game);
             game.getSession1().close();
             if (game.getSession2() != null)
                 game.getSession2().close();
-            game.setStage(-1);
-            GameHandler.deleteGame(game);
+
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
